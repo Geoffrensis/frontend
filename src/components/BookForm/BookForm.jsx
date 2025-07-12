@@ -15,6 +15,7 @@ const BookForm = () => {
                 title,
                 author,
                 id: crypto.randomUUID(),
+                isFavorite: false,
             };
             dispatch(addBook(book));
             setTitle('');
@@ -27,6 +28,7 @@ const BookForm = () => {
         const randomBookWithId = {
             ...randomBook,
             id: crypto.randomUUID(),
+            isFavorite: false,
         };
         dispatch(addBook(randomBookWithId));
     };
