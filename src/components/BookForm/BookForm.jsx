@@ -13,6 +13,7 @@ const BookForm = () => {
             const book = {
                 title,
                 author,
+                id: crypto.randomUUID(),
             };
             dispatch(addBook(book));
             setTitle('');
