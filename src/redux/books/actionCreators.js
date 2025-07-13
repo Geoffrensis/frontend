@@ -18,3 +18,8 @@ export const toggleFavorite = (id) => {
         payload: id,
     };
 };
+export const clearAll = () => {
+    return {
+        type: actionTypes.CLEAR_ALL_BOOKS,
+    };
+};

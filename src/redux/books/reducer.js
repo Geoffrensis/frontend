@@ -12,6 +12,8 @@ const booksReducer = (state = initialState, action) => {
                     ? { ...book, isFavorite: !book.isFavorite }
                     : book;
             });
+        case actionTypes.CLEAR_ALL_BOOKS:
+            return [];
         default:
             return state;
     }

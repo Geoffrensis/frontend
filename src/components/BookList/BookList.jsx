@@ -1,9 +1,15 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { BsBookmarkCheckFill, BsBookmarkCheck } from 'react-icons/bs';
 import './BookList.css';
-import { deleteBook, toggleFavorite } from '../../redux/books/actionCreators';
+import {
+    clearAll,
+    deleteBook,
+    toggleFavorite,
+} from '../../redux/books/actionCreators';
+import { selectTitleFilter } from '../../redux/slices/filterSlice';
 const BookList = () => {
     const books = useSelector((state) => state.books);
+    const titleFilter = useSelector(selectTitleFilter);
     const dispatch = useDispatch();
 
     const handleDeleteBook = (id) => {
@@ -12,23 +18,33 @@ const BookList = () => {
     const handleToggleFavorite = (id) => {
         dispatch(toggleFavorite(id));
     };
+    const handleClearAllBooks = () => {
+        dispatch(clearAll());
+    };
+    const filteredBooks = books.filter((book) => {
+        const matchesTitle = book.title
+            .toLowerCase()
+            .includes(titleFilter.toLowerCase());
+        return matchesTitle;
+    });
     return (
         <div className="app-block book-list">
             <div className="filter-row">
                 <h2>Book List</h2>
-                <button type="button">Clear All</button>
+                <button type="button" onClick={handleClearAllBooks}>
+                    Clear All
+                </button>
             </div>
             {books.length === 0 ? (
                 <p>No books found</p>
             ) : (
                 <ul>
-                    {books.map((book, index) => {
+                    {filteredBooks.map((book, index) => {
                         return (
                             <li key={book.id}>
                                 <div className="book-info">
                                     {index + 1}
-                                    {')'} {book.year}
-                                    {book.title} by{' '}
+                                    {')'} {book.title} by{' '}
                                     <strong>{book.author}</strong>
                                 </div>
                                 <div className="book-actions">
