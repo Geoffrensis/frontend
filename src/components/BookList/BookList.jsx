@@ -37,6 +37,20 @@ const BookList = () => {
         const matchesFavorite = onlyFavoriteFilter ? book.isFavorite : true;
         return matchesTitle && matchesAuthor && matchesFavorite;
     });
+    const highlighMatch = (text, filter) => {
+        if (!filter) return text;
+        const regex = new RegExp(`(${filter})`, 'gi');
+        const parts = text.split(regex);
+        return parts.map((part, index) =>
+            part.toLowerCase() === filter.toLowerCase() ? (
+                <span key={index} className="highlight">
+                    {part}
+                </span>
+            ) : (
+                part
+            )
+        );
+    };
     return (
         <div className="app-block book-list">
             <div className="filter-row">
@@ -54,8 +68,14 @@ const BookList = () => {
                             <li key={book.id}>
                                 <div className="book-info">
                                     {index + 1}
-                                    {')'} {book.title} by{' '}
-                                    <strong>{book.author}</strong>
+                                    {')'}{' '}
+                                    {highlighMatch(book.title, titleFilter)} by{' '}
+                                    <strong>
+                                        {highlighMatch(
+                                            book.author,
+                                            authorFilter
+                                        )}
+                                    </strong>
                                 </div>
                                 <div className="book-actions">
                                     <span
